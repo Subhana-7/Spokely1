@@ -46,7 +46,6 @@ const PaymentDetails = () => {
     const fetchPayment = async () => {
       try {
         const res = await paymentDetails(id!);
-        console.log("check", res);
         setPayment(res.data?.data || null);
       } catch (error: any) {
         console.error(error);
@@ -72,8 +71,6 @@ const PaymentDetails = () => {
         Payment not found.
       </div>
     );
-
-  console.log(payment);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white py-14 px-6">

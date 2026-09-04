@@ -60,7 +60,6 @@ const MentorDashboard = () => {
     fetchHome();
   }, [months]);
 
-  console.log(data);
 
   return (
     <div className="min-h-screen bg-slate-700">

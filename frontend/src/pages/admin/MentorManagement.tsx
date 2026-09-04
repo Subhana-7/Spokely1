@@ -40,8 +40,6 @@ const MentorManagement = () => {
 
         const { mentors, total } = res.data.result;
 
-        console.log(mentors, total);
-
         setMentors(mentors ?? []);
         setTotal(total ?? 0);
       } catch (err) {

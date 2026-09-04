@@ -64,8 +64,6 @@ const SpokelyMentors = () => {
           6
         );
 
-        console.log("Subscriptions Response:", res.data);
-
         const { data, totalPages } = res.data;
         setSubscriptions(data || []);
         setTotalPages(totalPages || 1);

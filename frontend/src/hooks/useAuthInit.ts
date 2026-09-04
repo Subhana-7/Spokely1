@@ -12,7 +12,6 @@ export const useAuthInit = () => {
 
       try {
         const res = await refreshToken();
-        console.log("refreshToken response:", res);
 
         let userData = null;
 
@@ -44,6 +43,7 @@ export const useAuthInit = () => {
           logout();
         }
       } catch (err) {
+        console.log("issue:",err)
         logout();
       } finally {
         const elapsed = Date.now() - start;
@@ -58,7 +58,7 @@ export const useAuthInit = () => {
     };
 
     init();
-  }, []);
+  }, [logout,setUser]);
 
   return loading;
 };

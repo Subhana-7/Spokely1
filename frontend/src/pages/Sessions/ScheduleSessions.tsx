@@ -59,7 +59,6 @@ const ScheduleSession = () => {
   async function connectedUsers() {
     try {
       let res = await getAllConnections();
-      console.log(res);
       return res;
     } catch (err) {
       toast.error("Failed to fetch users");
@@ -87,7 +86,6 @@ const ScheduleSession = () => {
     });
   }, []);
 
-  console.log(users);
 
   const calculateEndTime = (startTime: string) => {
     if (!startTime) return "";

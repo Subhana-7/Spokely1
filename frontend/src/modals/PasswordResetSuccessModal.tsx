@@ -12,7 +12,6 @@ const PasswordResetSuccessModal: React.FC<PasswordResetSuccessModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  console.log("huh");
 
   return (
     <Modal

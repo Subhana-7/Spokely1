@@ -97,8 +97,7 @@ const DailyTaskManagement = () => {
           page,
           limit,
         });
-
-        console.log(response.data);
+        
         const { tasks: fetchedTasks, total: totalTasks } = response.data;
         setTasks(fetchedTasks);
         setTotal(totalTasks);
@@ -110,8 +109,6 @@ const DailyTaskManagement = () => {
 
     fetchTasks();
   }, [search, filter, page]);
-
-  console.log(tasks);
 
   // Open feedback modal when a row is clicked
   const handleTaskClick = (id: string) => {

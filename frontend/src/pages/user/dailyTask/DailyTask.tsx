@@ -131,7 +131,6 @@ const DailyTaskPage = () => {
       try {
         const response = await latestSubmission();
         const data = response.data;
-        console.log(data);
         if (data.task) {
           setSelectedTopic(data.task.topic);
           setTaskData(data.task);
@@ -174,8 +173,6 @@ const DailyTaskPage = () => {
 
     fetchExistingTask();
   }, []);
-
-  console.log(feedback);
 
   const handleTopicSelect = async (topic: string) => {
     setSelectedTopic(topic);

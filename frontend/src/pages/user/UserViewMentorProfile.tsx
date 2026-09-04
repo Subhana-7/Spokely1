@@ -120,7 +120,6 @@ const UserViewMentorProfile = () => {
 
         if (user?.id) {
           const subsRes = await getUserSubscriptions(user.id);
-          console.log(subsRes);
 
           setUserSubscriptions(
             Array.isArray(subsRes.data?.data) ? subsRes.data.data : []

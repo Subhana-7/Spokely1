@@ -27,7 +27,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
 
   setUser: (user) => {
-    console.log("Setting user in store:", user);
 
     const normalizedUser = {
       ...user,
@@ -37,7 +36,6 @@ export const useAuthStore = create<AuthState>((set) => ({
     Cookies.set("role", normalizedUser.role, { sameSite: "none" });
     set({ user: normalizedUser, isAuthenticated: !normalizedUser.isBlocked });
 
-    console.log("User stored in Zustand:", normalizedUser);
   },
   logout: () => {
      Cookies.remove("role");

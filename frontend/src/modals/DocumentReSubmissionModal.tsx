@@ -5,6 +5,7 @@ import Button from "./Button";
 import DocumentResubmissionSuccessModal from "./DocumentResubmissionSuccessModal";
 import { resubmitDocument } from "../services/authServices";
 import { uploadImageToCloudinary } from "../utilis/cloudinary ";
+import { AxiosError } from "axios";
 
 interface DocumentResubmissionModalProps {
   isOpen: boolean;
@@ -46,18 +47,19 @@ const DocumentResubmissionModal: React.FC<DocumentResubmissionModalProps> = ({
       await resubmitDocument(email, documentUrl, textMessage);
 
       setShowSuccessModal(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
+       const error = err as AxiosError<{ message?: string }>;
       console.error("Resubmit error:", err);
 
       let errorMessage = "Failed to resubmit document";
 
-      if (err.response) {
+      if (error.response) {
         errorMessage =
-          err.response.data?.message || `Server error: ${err.response.status}`;
-      } else if (err.request) {
+          error.response.data?.message || `Server error: ${error.response.status}`;
+      } else if (error.request) {
         errorMessage = "No response from server. Please check your connection.";
       } else {
-        errorMessage = err.message || "An unexpected error occurred";
+        errorMessage = error.message || "An unexpected error occurred";
       }
 
       setErrors({ email: errorMessage });
@@ -72,7 +74,6 @@ const DocumentResubmissionModal: React.FC<DocumentResubmissionModalProps> = ({
 
     try {
       const url = await uploadImageToCloudinary(file);
-      console.log("File uploaded successfully:", url);
       setDocumentUrl(url);
     } catch (error) {
       console.error("File upload failed", error);

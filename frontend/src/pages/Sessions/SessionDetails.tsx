@@ -57,7 +57,6 @@ const SessionDetail = () => {
     fetchSession();
   }, [id]);
 
-  console.log(session);
 
   const handleSubmitFeedback = async () => {
     if (!feedbackComment.trim() || !feedbackRating || !feedbackModal.toUserId) {

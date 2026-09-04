@@ -82,6 +82,7 @@ export class AdminService implements IAdminService {
     if (!admin) throw new Error(MESSAGES.ERROR.INVALID_CREDENTIALS);
 
     const match = await bcrypt.compare(rawPassword, admin.password);
+    
     if (!match) throw new Error(MESSAGES.ERROR.INVALID_CREDENTIALS);
 
     return {

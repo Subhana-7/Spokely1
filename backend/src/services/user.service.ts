@@ -37,7 +37,7 @@ export class UserService implements IUserService {
   constructor(
     @inject(TYPES.IUserRepository) private _userRepository: IUserRepository,
     @inject(TYPES.IAdminRepository) private _adminRepository: IAdminRepository,
-    @inject(TYPES.IEmailService) private _emailService:IEmailService
+    @inject(TYPES.IEmailService) private _emailService: IEmailService,
   ) {}
 
   /* ----------------------------------------
@@ -62,7 +62,7 @@ export class UserService implements IUserService {
   private async sendOTPEmail(
     to: string,
     otp: string,
-    isForgotPassword = false
+    isForgotPassword = false,
   ) {
     const transporter = nodemailer.createTransport({
       service: EMAIL_PROVIDER_CONSTANTS.GMAIL,
@@ -150,16 +150,14 @@ export class UserService implements IUserService {
    * SEND OTP
    * ---------------------------------------- */
   async sendOtp(email: string): Promise<void> {
-    console.log("hiting user service otp")
     const user = await this._userRepository.findByEmail(email);
-    console.log('user found',user)
     if (!user) throw new Error(MESSAGES.ERROR.USER_NOT_FOUND);
 
     const otp = this.generateOTP();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
     await this._userRepository.updateOTP(email, otp, expiresAt);
-    await this._emailService.sendOTPEmail(email, otp,false);
+    await this._emailService.sendOTPEmail(email, otp, false);
   }
 
   /* ----------------------------------------
@@ -183,16 +181,16 @@ export class UserService implements IUserService {
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
     await this._userRepository.updateForgotPasswordOTP(email, otp, expiresAt);
-    await this.sendOTPEmail(email, otp, true);
+    await this._emailService.sendOTPEmail(email, otp, true);
   }
 
   async verifyForgotPasswordOtp(
     email: string,
-    code: string
+    code: string,
   ): Promise<{ message: string }> {
     const isValid = await this._userRepository.verifyForgotPasswordOTP(
       email,
-      code
+      code,
     );
     if (!isValid) throw new Error(MESSAGES.ERROR.OTP_INVALID);
 
@@ -221,7 +219,7 @@ export class UserService implements IUserService {
    * ---------------------------------------- */
   async updateRole(
     userId: string,
-    role: "user" | "mentor"
+    role: "user" | "mentor",
   ): Promise<UserResponseDTO> {
     if (![USER_STRINGS.ROLE.USER, USER_STRINGS.ROLE.MENTOR].includes(role)) {
       throw new Error(MESSAGES.ERROR.INVALID_ROLE);
@@ -238,7 +236,6 @@ export class UserService implements IUserService {
    * ---------------------------------------- */
   async getHome(userId: string): Promise<UserResponseDTO> {
     const user = await this._userRepository.findById(userId);
-    console.log(user);
     if (!user) throw new Error(HOME_STATS_STRINGS.NOT_FOUND);
 
     const stats = await this._userRepository.getUserStats(userId);
@@ -276,7 +273,7 @@ export class UserService implements IUserService {
    * ---------------------------------------- */
   async updateUser(
     userId: string,
-    data: Partial<UserResponseDTO>
+    data: Partial<UserResponseDTO>,
   ): Promise<UserResponseDTO> {
     const updated = await this._userRepository.updateUser(userId, data);
     if (!updated) throw new Error(MESSAGES.ERROR.USER_NOT_FOUND);
@@ -299,7 +296,7 @@ export class UserService implements IUserService {
    * REFRESH TOKEN
    * ---------------------------------------- */
   async refreshToken(
-    token: string
+    token: string,
   ): Promise<{ user: UserResponseDTO; accessToken: string }> {
     if (!token) throw new Error(MESSAGES.ERROR.INVALID_TOKEN);
 
@@ -354,7 +351,7 @@ export class UserService implements IUserService {
    * GOOGLE AUTH
    * ---------------------------------------- */
   async processGoogleAuth(
-    profile: GoogleProfile
+    profile: GoogleProfile,
   ): Promise<{ user: any; accessToken: string; refreshToken: string }> {
     try {
       const email = profile?.emails?.[0]?.value;
@@ -384,7 +381,7 @@ export class UserService implements IUserService {
               googleId: profile.id,
               isGoogleUser: true,
               isVerified: true,
-            }
+            },
           );
           if (updated) user = updated;
         }
@@ -418,11 +415,7 @@ export class UserService implements IUserService {
   /* ----------------------------------------
    * GET ALL MENTORS LISTING
    * ---------------------------------------- */
-  async listMentors({
-    page = 1,
-    limit = 6,
-    search = "",
-  }): Promise<{
+  async listMentors({ page = 1, limit = 6, search = "" }): Promise<{
     mentors: MentorResponseDTO;
     total: number;
     page: number;

@@ -341,7 +341,6 @@ const LandingPage: React.FC = () => {
         isOpen={activeModal === "password"}
         onClose={closeModal}
         onChangePassword={() => {
-          console.log("Password changed");
           closeModal();
         }}
       />

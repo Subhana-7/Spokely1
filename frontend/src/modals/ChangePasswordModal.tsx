@@ -6,6 +6,7 @@ import Button from "./Button";
 import OTPModal from "./OTPModal";
 import PasswordResetSuccessModal from "./PasswordResetSuccessModal";
 import { sendForgotPasswordOTP, resetPassword } from "../services/authServices";
+import { AxiosError } from "axios";
 
 interface ChangePasswordModalProps {
   isOpen: boolean;
@@ -39,11 +40,12 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     setError("");
 
     try {
-      await sendForgotPasswordOTP({ email: formData.email }, formData.role);
+      let res = await sendForgotPasswordOTP({ email: formData.email }, formData.role);
       setShowOTPModal(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const error = err as AxiosError<{ message?: string }>;
       const msg =
-        err.response?.data?.message || err.message || "Failed to send OTP";
+        error.response?.data?.message || error.message || "Failed to send OTP";
       setError(msg);
     } finally {
       setIsLoading(false);
@@ -72,14 +74,15 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
     try {
       await resetPassword(
         { email: formData.email, newPassword },
-        formData.role
+        formData.role,
       );
       setShowPasswordModal(false);
       setShowSuccessModal(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const error = err as AxiosError<{ message?: string }>;
       const msg =
-        err.response?.data?.message ||
-        err.message ||
+        error.response?.data?.message ||
+        error.message ||
         "Failed to change password";
       setError(msg);
     } finally {

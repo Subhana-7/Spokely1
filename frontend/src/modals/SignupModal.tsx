@@ -161,8 +161,6 @@ const SignupModal: React.FC<SignupModalProps> = ({
       if (message.includes("Email already")) {
         setErrors((prev) => ({ ...prev, email: "Email already registered" }));
       }
-
-      console.log("Signup failed: " + message);
     }
   };
 

@@ -44,7 +44,6 @@ export default function ChatBox({
     setMessages([]);
 
     socket.emit("join-room", chatId);
-    console.log("Joined room:", chatId);
 
     const loadMessages = async () => {
       try {
@@ -69,15 +68,8 @@ export default function ChatBox({
     socket.emit("mark-read", { sessionId: chatId, userId: currentUser.id });
 
     const handleIncoming = (msg: any) => {
-      console.log(
-        "Received message:",
-        msg.sessionId,
-        "Current chat:",
-        chatIdRef.current
-      );
 
       if (msg.sessionId !== chatIdRef.current) {
-        console.log("Ignoring message for different chat");
         return;
       }
 
@@ -91,7 +83,6 @@ export default function ChatBox({
 
       setMessages((prev) => {
         if (prev.some((m) => m.id === newMessage.id)) {
-          console.log("Duplicate message detected, ignoring");
           return prev;
         }
 
@@ -106,11 +97,9 @@ export default function ChatBox({
         );
 
         if (isDuplicate) {
-          console.log("Duplicate message by content, ignoring");
           return prev;
         }
 
-        console.log("Adding new message:", newMessage.text);
         return [...prev, newMessage];
       });
     };
@@ -121,7 +110,6 @@ export default function ChatBox({
       isMounted = false;
       socket.off("chat-message", handleIncoming);
       socket.emit("leave-room", chatId);
-      console.log("Left room:", chatId);
     };
   }, [chatId, currentUser, socket]);
 

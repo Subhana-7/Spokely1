@@ -11,8 +11,7 @@ import {
 
 @injectable()
 export class EmailService implements IEmailService {
-
-   private resend: Resend;
+  private resend: Resend;
 
   constructor() {
     this.resend = new Resend(process.env.RESEND_API_KEY);
@@ -45,24 +44,23 @@ export class EmailService implements IEmailService {
         throw new Error(EMAIL_ERRORS.INVALID_VERIFICATION_STATUS);
     }
 
-     await this.resend.emails.send({
+    await this.resend.emails.send({
       from: process.env.EMAIL_FROM || "Spokely <no-reply@spokely.live>",
       to,
       subject,
-      text
+      text,
     });
   }
 
   async sendOTP(to: string, otp: string): Promise<void> {
-
     const subject = EMAIL_MESSAGES.OTP.SUBJECT;
     const text = EMAIL_MESSAGES.OTP.TEXT(otp);
 
-     await this.resend.emails.send({
+    await this.resend.emails.send({
       from: process.env.EMAIL_FROM || "Spokely <no-reply@spokely.live>",
       to,
       subject,
-      text
+      text,
     });
   }
 
@@ -72,7 +70,6 @@ export class EmailService implements IEmailService {
     isForgotPassword: boolean = false,
   ): Promise<void | null> {
     try {
-
       const subject = isForgotPassword
         ? EMAIL_MESSAGES.OTP_FORGOT_PASSWORD.SUBJECT
         : EMAIL_MESSAGES.OTP.SUBJECT;
@@ -81,12 +78,12 @@ export class EmailService implements IEmailService {
         ? EMAIL_MESSAGES.OTP_FORGOT_PASSWORD.TEXT(otp)
         : EMAIL_MESSAGES.OTP.TEXT(otp);
 
-      let res = await this.resend.emails.send({
-      from: process.env.EMAIL_FROM || "Spokely <no-reply@spokely.live>",
-      to,
-      subject,
-      text
-    });
+      await this.resend.emails.send({
+        from: process.env.EMAIL_FROM || "Spokely <no-reply@spokely.live>",
+        to,
+        subject,
+        text,
+      });
     } catch (error: unknown) {
       console.log("error", error);
       return null;

@@ -54,8 +54,6 @@ const PaymentManagement = () => {
     fetchPayments();
   }, []);
 
-  console.log(payments);
-
   const filteredPayments = payments.filter((p) => {
     const matchSearch =
       p.paypalOrderId?.toLowerCase().includes(searchQuery.toLowerCase()) ||

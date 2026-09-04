@@ -19,7 +19,7 @@ const DashboardHeader = () => {
       logout();
       navigate("/");
     } catch (error) {
-      console.log("logout unsuccessful");
+      console.log("logout unsuccessful",error);
     }
   };
 

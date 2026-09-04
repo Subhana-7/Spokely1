@@ -47,6 +47,7 @@ const ChangePasswordModal: React.FC<ChangePasswordModalProps> = ({
       setNewPassword("");
       setConfirmPassword("");
     } catch (err) {
+      console.log("issue:",err)
       setError("Failed to change password. Try again.");
     } finally {
       setLoading(false);

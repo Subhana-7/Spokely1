@@ -75,7 +75,6 @@ export const paymentDetails = (id: string) =>
   API.get(`${R.base}${R.payment}/${id}`);
 
 export const getPayments = () => {
-  console.log("getPayments called");
   return API.get(`${R.base}${R.payments}`);
 };
 

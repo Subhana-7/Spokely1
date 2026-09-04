@@ -88,7 +88,6 @@ const AdminSessionsPage = () => {
     fetchSessions();
   }, [page, searchTerm, statusFilter, sessionType]);
 
-  console.log(sessions);
 
   return (
     <div className="p-4 md:p-8">

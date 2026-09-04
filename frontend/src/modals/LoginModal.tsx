@@ -85,11 +85,9 @@ const LoginModal: React.FC<LoginModalProps> = ({
         return;
       }
 
-      console.log(selectedRole)
 
       if (selectedRole === "mentor") {
         const status = user.document?.verificationStatus;
-        console.log(status)
 
         if (status === "pending") {
           setVerificationMessage(
